@@ -1,0 +1,20 @@
+.header {
+	background-color: #4747d4;
+	height: 80px;
+}
+
+.form_header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 20px;
+}
+
+.form_input {
+	height: 30px;
+	width: 300px;
+}
+.btn {
+	height: 35px;
+	width: 70px;
+}
