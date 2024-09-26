@@ -19,7 +19,7 @@ function App() {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [keyLetter, setKeyLetter] = useState('');
 	const [page, setPage] = useState(1);
-	const galerryRef = useRef(null);
+	const lastImageRef = useRef(null);
 
 	useEffect(() => {
 		if (keyLetter) {
@@ -28,22 +28,14 @@ function App() {
 			getImages('', page);
 		}
 	}, [keyLetter, page]);
-
 	const handleLoadMore = () => {
 		setPage(prevpage => prevpage + 1);
-	};
-
-	const handleScroll = ref => {
-		window.scrollTo({
-			bottom: ref.offsetBottom,
-			behavior: 'smooth',
-		});
 	};
 
 	const handleSearch = query => {
 		setPage(1);
 		console.log('Search query:', query);
-		setKeyLetter(query, 1);
+		setKeyLetter(query);
 	};
 
 	const openModal = image => {
@@ -56,6 +48,12 @@ function App() {
 		setIsOpen(false);
 		setSelectedImage(null);
 	};
+	useEffect(() => {
+		if (page > 1 && lastImageRef.current) {
+			lastImageRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	}, [imagesList]);
+
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -68,7 +66,7 @@ function App() {
 		<>
 			<SearchBar onSubmit={handleSearch} />
 			<div className={css.container}>
-				<ImageGallery ref={galerryRef} images={imagesList} openModal={openModal} />
+				<ImageGallery images={imagesList} openModal={openModal} lastImageRef={lastImageRef} />
 				<ImageModal
 					openModal={openModal}
 					closeModal={closeModal}
@@ -78,7 +76,7 @@ function App() {
 					getImages={getImages}
 					selectedImage={selectedImage}
 				/>
-				<LoadMoreBtn onScroll={handleScroll} onLoadMore={handleLoadMore} currentPage={page} />
+				<LoadMoreBtn onLoadMore={handleLoadMore} currentPage={page} />
 			</div>
 		</>
 	);

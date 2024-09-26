@@ -1,7 +1,8 @@
 import css from '../ImageCard/ImageCard.module.css';
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 
-const ImageCard = ({ image, openModal }) => {
+const ImageCard = forwardRef(({ image, openModal }, ref) => {
 	const smallImage = image.urls.small;
 	const bigImage = image.urls.regular;
 	const { alt_description } = image;
@@ -9,12 +10,13 @@ const ImageCard = ({ image, openModal }) => {
 		openModal(bigImage);
 	};
 	return (
-		<div className={css.image} onClick={handleClick}>
+		<div className={css.image} onClick={handleClick} ref={ref}>
 			<img src={smallImage} alt={alt_description || 'Image have no disciription'} />
 		</div>
 	);
-};
+});
 
+ImageCard.displayName = 'ImageCard';
 ImageCard.propTypes = {
 	image: PropTypes.any,
 	openModal: PropTypes.func,

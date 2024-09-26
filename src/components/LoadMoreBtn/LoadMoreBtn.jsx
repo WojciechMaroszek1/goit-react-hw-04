@@ -1,11 +1,10 @@
 import css from '../LoadMoreBtn/LoadMoreBtn.module.css';
 import PropTypes from 'prop-types';
 
-const LoadMoreBtn = ({ onScroll, onLoadMore, currentPage }) => {
+const LoadMoreBtn = ({ onLoadMore, currentPage }) => {
 	console.log('current page:', { currentPage });
 	const handleClick = () => {
 		onLoadMore();
-		onScroll();
 	};
 
 	return (
@@ -17,7 +16,6 @@ const LoadMoreBtn = ({ onScroll, onLoadMore, currentPage }) => {
 
 LoadMoreBtn.propTypes = {
 	onLoadMore: PropTypes.func,
-	onScroll: PropTypes.func,
 	currentPage: PropTypes.number,
 };
 export default LoadMoreBtn;
