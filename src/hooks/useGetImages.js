@@ -22,5 +22,5 @@ export const useGetImages = () => {
 		}
 	};
 
-	return { isLoading, error, imagesList, getImages };
+	return [isLoading, error, imagesList, getImages];
 };

@@ -8,17 +8,18 @@ import Modal from 'react-modal';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn.jsx';
 import css from './App.module.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useGetImages } from '../hooks/useGetImages.js';
 
 Modal.setAppElement('#root');
 
 function App() {
-	const { isLoading, error, imagesList, getImages } = useGetImages();
+	const [isLoading, error, imagesList, getImages] = useGetImages();
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [keyLetter, setKeyLetter] = useState('');
 	const [page, setPage] = useState(1);
+	const galerryRef = useRef(null);
 
 	useEffect(() => {
 		if (keyLetter) {
@@ -26,11 +27,20 @@ function App() {
 		} else {
 			getImages('', page);
 		}
-	});
+	}, [keyLetter, page]);
 
-	const handleLoadmore = () => {
+	const handleLoadMore = () => {
 		setPage(prevpage => prevpage + 1);
 	};
+
+	const handleScroll = ref => {
+		window.scrollTo({
+			top: ref.offsetTop,
+			left: 0,
+			behavior: 'smooth',
+		});
+	};
+
 	const handleSearch = query => {
 		setPage(1);
 		console.log('Search query:', query);
@@ -59,7 +69,7 @@ function App() {
 		<>
 			<SearchBar onSubmit={handleSearch} />
 			<div className={css.container}>
-				<ImageGallery images={imagesList} openModal={openModal} />
+				<ImageGallery ref={galerryRef} images={imagesList} openModal={openModal} />
 				<ImageModal
 					openModal={openModal}
 					closeModal={closeModal}
@@ -69,7 +79,7 @@ function App() {
 					getImages={getImages}
 					selectedImage={selectedImage}
 				/>
-				<LoadMoreBtn onClick={handleLoadmore} currentPage={page} />
+				<LoadMoreBtn onScroll={handleScroll} onLoadMore={handleLoadMore} currentPage={page} />
 			</div>
 		</>
 	);
