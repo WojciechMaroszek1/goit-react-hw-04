@@ -35,8 +35,7 @@ function App() {
 
 	const handleScroll = ref => {
 		window.scrollTo({
-			top: ref.offsetTop,
-			left: 0,
+			bottom: ref.offsetBottom,
 			behavior: 'smooth',
 		});
 	};

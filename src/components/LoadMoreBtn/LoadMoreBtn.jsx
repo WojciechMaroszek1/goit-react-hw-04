@@ -1,7 +1,7 @@
 import css from '../LoadMoreBtn/LoadMoreBtn.module.css';
 import PropTypes from 'prop-types';
 
-const LoadMoreBtn = ({ onScroll, onLoadMore, currentPage }, ref) => {
+const LoadMoreBtn = ({ onScroll, onLoadMore, currentPage }) => {
 	console.log('current page:', { currentPage });
 	const handleClick = () => {
 		onLoadMore();
@@ -9,7 +9,7 @@ const LoadMoreBtn = ({ onScroll, onLoadMore, currentPage }, ref) => {
 	};
 
 	return (
-		<button className={css.button} onClick={handleClick} ref={ref}>
+		<button className={css.button} onClick={handleClick}>
 			Load More
 		</button>
 	);
